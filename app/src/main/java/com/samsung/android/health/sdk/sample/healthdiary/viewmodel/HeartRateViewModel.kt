@@ -55,6 +55,7 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
         }
     }
 
+
     fun generateDummyDailyHeartRateData() {
         val random = Random(System.currentTimeMillis())
         val dummyHeartRateList = mutableListOf<HeartRate>()
