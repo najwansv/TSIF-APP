@@ -24,6 +24,7 @@ class HeartRateActivity : AppCompatActivity() {
 
     private lateinit var binding: HeartRateActivityBinding
     private lateinit var heartRateAdapter: HeartRateAdapter
+    private lateinit var concerningHeartRateAdapter: HeartRateAdapter
     private lateinit var heartRateViewModel: HeartRateViewModel
     private lateinit var healthMainViewModel: HealthMainViewModel
     private var startDate = currentDate
@@ -40,6 +41,7 @@ class HeartRateActivity : AppCompatActivity() {
         )[HealthMainViewModel::class.java]
 
         heartRateAdapter = HeartRateAdapter()
+        concerningHeartRateAdapter = HeartRateAdapter()
 
 
         binding = DataBindingUtil
@@ -48,6 +50,8 @@ class HeartRateActivity : AppCompatActivity() {
                 viewModel = heartRateViewModel
                 heartRateList.layoutManager = LinearLayoutManager(this@HeartRateActivity)
                 heartRateList.adapter = heartRateAdapter
+                concerningHeartRateList.layoutManager = LinearLayoutManager(this@HeartRateActivity)
+                concerningHeartRateList.adapter = concerningHeartRateAdapter
             }
 
         initializeOnClickListeners()
@@ -55,6 +59,7 @@ class HeartRateActivity : AppCompatActivity() {
         setHeartRateDataObservers()
 //        ini memanggil RNG
         heartRateViewModel.generateDummyDailyHeartRateData()
+        heartRateViewModel.generateDummyHourlyHeartRateData()
     }
 
     private fun initializeOnClickListeners() {
@@ -102,6 +107,11 @@ class HeartRateActivity : AppCompatActivity() {
         /**  Update heart rate UI */
         heartRateViewModel.dailyHeartRate.observe(this) {
             heartRateAdapter.updateList(it)
+        }
+
+        /**  Update concerning heart rate UI */
+        heartRateViewModel.fiveMinutesHR.observe(this) {
+            concerningHeartRateAdapter.updateList(it)
         }
 
         /** Show toast on exception occurrence **/

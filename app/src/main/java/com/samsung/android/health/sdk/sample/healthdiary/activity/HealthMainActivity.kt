@@ -79,13 +79,21 @@ class HealthMainActivity : AppCompatActivity(), View.OnClickListener {
         startHeartRateUpdates()
 
 //        JANLUP HAPUS INI RNG
-        heartRateViewModel.generateDummyFiveMinutesHeartRateData()
+        heartRateViewModel.generateDummyHourlyHeartRateData()
+
         heartRateViewModel.generateDummyDailyHeartRateData()
 
     }
     private fun observeHeartRateData() {
         heartRateViewModel.fiveMinutesHR.observe(this) { heartRate ->
-            bpmTextView.text = heartRate.avg.toString()
+            if (heartRate.isNotEmpty()) {
+                val avg = heartRate[11].avg
+                val Stime = heartRate[11].startTime
+                val Etime = heartRate[11].endTime
+
+                println("$Stime - $Etime")
+                bpmTextView.text = formatString(avg)
+            }
         }
     }
 

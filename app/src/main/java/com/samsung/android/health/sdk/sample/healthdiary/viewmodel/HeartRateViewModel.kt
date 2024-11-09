@@ -31,13 +31,13 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
     private val _exceptionResponse: MutableLiveData<String> = MutableLiveData<String>()
     private val exceptionHandler = getExceptionHandler(activity, _exceptionResponse)
     private val _dailyHeartRate = MutableLiveData<List<HeartRate>>()
+    private val _fiveMinutesHR = MutableLiveData<List<HeartRate>>()
     private val hrResultList: MutableList<HeartRate> = mutableListOf()
     val dailyHeartRate: LiveData<List<HeartRate>> = _dailyHeartRate
     val dayStartTimeAsText = ObservableField<String>()
     val exceptionResponse: LiveData<String> = _exceptionResponse
 
-    private val _fiveMinutesHR: MutableLiveData<HeartRate> = MutableLiveData<HeartRate>()
-    val fiveMinutesHR: LiveData<HeartRate> = _fiveMinutesHR
+    val fiveMinutesHR: LiveData<List<HeartRate>> = _fiveMinutesHR
 
     fun readHeartRateData(dateTime: LocalDateTime) {
         dayStartTimeAsText.set(dateTime.format(dateFormat))
@@ -76,20 +76,24 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
         _dailyHeartRate.postValue(dummyHeartRateList)
     }
 
-    fun generateDummyFiveMinutesHeartRateData() {
+    fun generateDummyHourlyHeartRateData() {
         val random = Random(System.currentTimeMillis())
+        val dummyHeartRateList = mutableListOf<HeartRate>()
 
-        // Generate dummy data for five minutes heart rate
-        val fiveMinutesHeartRate = HeartRate(
-            min = random.nextFloat() * 40 + 60,
-            max = random.nextFloat() * 40 + 100,
-            avg = random.nextFloat() * 40 + 80,
-            startTime = "Last 5 Minutes",
-            endTime = "",
-            count = random.nextInt(10, 20) // Random count between 10 and 20
-        )
+        // Generate dummy data for 1 hour, divided into 5-minute intervals
+        for (i in 0 until 12) {
+            val heartRate = HeartRate(
+                min = random.nextFloat() * 40 + 60, // Random min heart rate between 60 and 100
+                max = random.nextFloat() * 40 + 100, // Random max heart rate between 100 and 140
+                avg = random.nextFloat() * 40 + 80, // Random avg heart rate between 80 and 120
+                startTime = "${i * 5} minutes",
+                endTime = "${(i + 1) * 5} minutes",
+                count = random.nextInt(10, 20) // Random count between 10 and 20
+            )
+            dummyHeartRateList.add(heartRate)
+        }
 
-        _fiveMinutesHR.postValue(fiveMinutesHeartRate)
+        _fiveMinutesHR.postValue(dummyHeartRateList)
     }
 
     fun readFromWatches(dateTime: LocalDateTime) {
