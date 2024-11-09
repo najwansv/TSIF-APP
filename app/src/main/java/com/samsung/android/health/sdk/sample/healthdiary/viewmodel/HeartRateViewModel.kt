@@ -72,6 +72,7 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
             )
             dummyHeartRateList.add(heartRate)
         }
+        println("dummy size ${dummyHeartRateList.size}")
 
         _dailyHeartRate.postValue(dummyHeartRateList)
     }

@@ -111,7 +111,7 @@ class HeartRateActivity : AppCompatActivity() {
 
         /**  Update concerning heart rate UI */
         heartRateViewModel.fiveMinutesHR.observe(this) {
-            concerningHeartRateAdapter.updateList(it)
+            concerningHeartRateAdapter.updateList(it, filterAbove110 = true)
         }
 
         /** Show toast on exception occurrence **/

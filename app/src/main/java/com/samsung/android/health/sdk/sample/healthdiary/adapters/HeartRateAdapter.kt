@@ -51,7 +51,7 @@ class HeartRateAdapter : RecyclerView.Adapter<HeartRateAdapter.ViewHolder>() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateList(heartRateData: List<HeartRateViewModel.HeartRate>, filterAbove110: Boolean = true) {
+    fun updateList(heartRateData: List<HeartRateViewModel.HeartRate>, filterAbove110: Boolean = false) {
         heartRateList.clear()
         if (filterAbove110) {
             heartRateList.addAll(heartRateData.filter { it.avg > 110 })
