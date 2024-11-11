@@ -87,8 +87,8 @@ class HeartRateViewModel(private val healthDataStore: HealthDataStore, activity:
                 min = random.nextFloat() * 40 + 60, // Random min heart rate between 60 and 100
                 max = random.nextFloat() * 40 + 100, // Random max heart rate between 100 and 140
                 avg = random.nextFloat() * 40 + 80, // Random avg heart rate between 80 and 120
-                startTime = "${i * 5} minutes",
-                endTime = "${(i + 1) * 5} minutes",
+                startTime = "${i * 5} ",
+                endTime = "${(i + 1) * 5} Minutes ago",
                 count = random.nextInt(10, 20) // Random count between 10 and 20
             )
             dummyHeartRateList.add(heartRate)
